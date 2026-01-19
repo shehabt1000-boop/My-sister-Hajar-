@@ -25,7 +25,7 @@
         body { font-family: 'Cairo', sans-serif; background-color: #000000; color: #fff; overflow-x: hidden; position: relative; margin: 0; padding-bottom: 20px; min-height: 100vh; }
         .font-english { font-family: 'Great Vibes', cursive; }
         .font-handwriting { font-family: 'Marck Script', cursive; }
-        
+
         /* --- شاشات التحميل والدخول --- */
         #login-screen, #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; background: transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease-out; }
         #login-screen::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); z-index: -1; }
@@ -44,27 +44,27 @@
         @keyframes fall { 0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
         .neon-box { position: relative; border-radius: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(1px); border: 2px solid #9f1239; box-shadow: 0 0 5px rgba(0,0,0,0.2); animation: neonPulse 2s infinite alternate ease-in-out; }
         @keyframes neonPulse { 0% { border-color: #9f1239; box-shadow: 0 0 5px #9f1239, inset 0 0 2px #9f1239; } 100% { border-color: #fb7185; box-shadow: 0 0 12px #fb7185, inset 0 0 6px #fb7185; } }
-        
+
         /* --- العناصر التفاعلية --- */
         .mystery-box { font-size: 4rem; cursor: pointer; animation: shake 2s infinite; display: inline-block; transition: transform 0.3s; }
         .mystery-box:active { transform: scale(0.9); }
         @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
         .share-btn { position: fixed; bottom: 80px; left: 20px; z-index: 50; background: rgba(255, 255, 255, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
-        
+
         /* --- لوحة التحكم --- */
         #admin-panel { background: #0f172a; min-height: 100vh; padding: 20px; color: #fff; padding-bottom: 100px; }
         .admin-section { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #334155; }
         .admin-label { display: block; margin-bottom: 5px; color: #94a3b8; font-size: 0.9rem; }
         .admin-input { width: 100%; background: #0f172a; border: 1px solid #475569; color: #fff; padding: 8px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 10px; }
         .code-box { background: #000; color: #22c55e; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.8rem; word-break: break-all; margin-top: 5px; user-select: all; border: 1px dashed #22c55e; }
-        
+
         /* --- السلايدر --- */
         .slider-container { overflow: hidden; white-space: nowrap; position: relative; padding: 10px 0; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
         .slider-track { display: inline-block; animation: scrollRTL 60s linear infinite; will-change: transform; }
         .slider-item { display: inline-block; width: 180px; height: 250px; margin: 0 6px; border-radius: 10px; overflow: hidden; border: 2px solid #e11d48; transition: transform 0.3s; position: relative; cursor: pointer; }
         .slider-item img { width: 100%; height: 100%; object-fit: cover; }
         @keyframes scrollRTL { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
-        
+
         /* --- تنسيق الفيديوهات الطولية 9:16 --- */
         .video-wrapper { 
             position: relative; 
@@ -103,7 +103,7 @@
         #lightbox { position: fixed; z-index: 99999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; }
         #lightbox img { max-width: 95%; max-height: 80%; border-radius: 10px; border: 2px solid #e11d48; }
         #lightbox-close { position: absolute; top: 20px; right: 20px; font-size: 30px; color: #fff; cursor: pointer; background: rgba(225, 29, 72, 0.8); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        
+
         .music-btn { position: fixed; bottom: 20px; left: 20px; z-index: 50; background: rgba(225, 29, 72, 0.8); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 10px rgba(225, 29, 72, 0.6); transition: all 0.3s; animation: pulse-btn 2s infinite; }
         @keyframes pulse-btn { 0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); } 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); } }
     </style>
@@ -117,20 +117,20 @@
     <script>
         const siteConfig = {
             // صورة الخلفية الثابتة للموقع
-            background: "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768836625/qvq3rrxgov1vu8nddsq6.jpg",
+            background: "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861890/husiabejzsomtldz658a.jpg",
 
             // صور شريط الذكريات (السلايدر)
             sliderImages: [
-                "https://raw.githubusercontent.com/shehabt1000-boop/Moussa/3c5822b0deb99157562300b4aefb8ce499b83603/%D9%A2%D9%A0%D9%A2%D9%A5%D9%A1%D9%A2%D9%A0%D9%A1_%D9%A1%D9%A6%D9%A4%D9%A3%D9%A4%D9%A0(1).jpg",
-                "https://raw.githubusercontent.com/shehabt1000-boop/Moussa/3c5822b0deb99157562300b4aefb8ce499b83603/%D9%A2%D9%A0%D9%A2%D9%A5%D9%A1%D9%A2%D9%A0%D9%A1_%D9%A1%D9%A6%D9%A4%D9%A2%D9%A3%D9%A1(1).jpg",
-                "https://raw.githubusercontent.com/shehabt1000-boop/Moussa/3c5822b0deb99157562300b4aefb8ce499b83603/%D9%A2%D9%A0%D9%A2%D9%A5%D9%A1%D9%A2%D9%A0%D9%A1_%D9%A1%D9%A6%D9%A4%D9%A0%D9%A2%D9%A4(1).jpg",
-                "https://raw.githubusercontent.com/shehabt1000-boop/Moussa/3c5822b0deb99157562300b4aefb8ce499b83603/IMG-20251124-WA0051.jpg"
+                "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861941/o8iijrkaurfblff7eepn.jpg",
+                "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861929/mkwnwbcopzgmf66ghjdl.jpg",
+                "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768836625/qvq3rrxgov1vu8nddsq6.jpg",
+                "/https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861977/fm7sksyf6uns9ggt8dfx.jpg"
             ],
 
             // الفيديوهات
             videos: [
-                "https://raw.githubusercontent.com/shehabt1000-boop/Moussa/795184b0ad13dd537fd64eb6208a05774bb399d1/lv_0_%D9%A2%D9%A0%D9%A2%D9%A5%D9%A1%D9%A2%D9%A0%D9%A2%D9%A0%D9%A1%D9%A0%D9%A1%D9%A3%D9%A2.mp4",
-                "https://raw.githubusercontent.com/shehabt1000-boop/Moussa/3c5822b0deb99157562300b4aefb8ce499b83603/%D9%A2%D9%A0%D9%A2%D9%A5%D9%A1%D9%A1%D9%A2%D9%A3_%D9%A2%D9%A1%D9%A0%D9%A9%D9%A1%D9%A3.mp4"
+                "https://res.cloudinary.com/db9h7zm1h/video/upload/v1768861993/sm7upoxheetwvgkqslrl.mp4",
+                "https://res.cloudinary.com/db9h7zm1h/video/upload/v1768861964/zzu7nar0stecybed9h0d.mp4"
             ],
 
             // رابط الموسيقى الخلفية
@@ -190,7 +190,7 @@
 
         <div class="admin-section">
             <h3 class="font-bold text-white mb-4"><i class="fas fa-edit text-yellow-400"></i> تعديل المحتوى</h3>
-            
+
             <label class="admin-label">رابط الخلفية:</label>
             <input type="text" id="admin-bg" class="admin-input">
 
@@ -208,7 +208,7 @@
             <h3 class="font-bold text-rose-400 mb-2">🎁 الخطوة الأخيرة</h3>
             <p class="text-xs text-gray-300 mb-3">بعد ما تغير الروابط فوق، اضغط الزرار ده عشان يكتبلك كود الإعدادات الجديد.</p>
             <button onclick="generateConfigCode()" class="w-full py-2 bg-rose-600 rounded text-white font-bold">توليد الكود الجديد</button>
-            
+
             <div id="generated-code-container" class="hidden mt-4">
                 <p class="text-xs text-white">انسخ الكود ده وحطه مكان الكود اللي في أول الملف (منطقة siteConfig):</p>
                 <div class="code-box text-xs" id="final-code-block"></div>
@@ -223,7 +223,7 @@
         <div class="music-btn" onclick="toggleMusic()">
             <i class="fas fa-music text-white" id="music-icon"></i>
         </div>
-        
+
         <div class="share-btn" onclick="shareSite()">
             <i class="fas fa-share-alt text-white"></i>
         </div>
@@ -354,7 +354,7 @@
             // Render Videos
             const videoContainer = document.getElementById('videos-container');
             let videoHtml = `<h3 class="text-center text-xl font-bold text-rose-400 mb-4">أختي القمر</h3>`;
-            
+
             siteConfig.videos.forEach((vidUrl, index) => {
                 const vidId = `video${index}`;
                 videoHtml += `
@@ -413,7 +413,7 @@
         ],
         music: "${music}"
     };`;
-            
+
             const container = document.getElementById('generated-code-container');
             const block = document.getElementById('final-code-block');
             container.classList.remove('hidden');
@@ -482,7 +482,7 @@
         function shootConfetti() { confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#ffffff'] }); }
         function openGift() { document.getElementById('mystery-box').style.animation = 'none'; document.getElementById('mystery-box').innerHTML = '🎉'; document.getElementById('gift-content').classList.remove('hidden'); shootConfetti(); }
         function shareSite() { if (navigator.share) navigator.share({ title: 'Hagar Birthday', url: window.location.href }); else alert('انسخ الرابط!'); }
-        
+
         function stopAllMedia(exceptId = null) {
             const audio = document.getElementById('bg-music');
             if (exceptId !== 'audio') { audio.pause(); document.getElementById('music-icon').className = 'fas fa-music text-white'; }
