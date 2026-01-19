@@ -9,8 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700;900&family=Great+Vibes&family=Marck+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- مكتبة Cloudinary -->
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 
     <style>
         /* --- الأساسيات --- */
@@ -21,7 +19,8 @@
             z-index: -10; background-repeat: no-repeat; pointer-events: none;
             transition: background-image 0.5s ease;
         }
-        #fixed-background::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); }
+        #fixed-background::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.0); }
+        
         body { font-family: 'Cairo', sans-serif; background-color: #000000; color: #fff; overflow-x: hidden; position: relative; margin: 0; padding-bottom: 20px; min-height: 100vh; }
         .font-english { font-family: 'Great Vibes', cursive; }
         .font-handwriting { font-family: 'Marck Script', cursive; }
@@ -38,6 +37,23 @@
         .input-glass:focus { border-color: #fb7185; background: rgba(255,255,255,0.3); }
         .hidden-content { display: none !important; }
 
+        /* --- البطاقات القلابة (Flip Cards) --- */
+        .flip-card { background-color: transparent; width: 100%; height: 160px; perspective: 1000px; cursor: pointer; }
+        .flip-card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 15px; box-shadow: 0 4px 8px rgba(225, 29, 72, 0.3); }
+        .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+        
+        .flip-card-front, .flip-card-back { position: absolute; width: 100%; height: 100%; -webkit-backface-visibility: hidden; backface-visibility: hidden; border-radius: 15px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px; }
+        
+        /* تعديل لون البطاقة الأمامية لتطابق لون العنوان (Rose-400) */
+        .flip-card-front { 
+            background: rgba(251, 113, 133, 0.25); /* لون وردي شفاف */
+            border: 1px solid #fb7185; /* حدود بنفس لون العنوان */
+            backdrop-filter: blur(5px); 
+            color: white; 
+        }
+        
+        .flip-card-back { background: linear-gradient(135deg, #e11d48, #be123c); color: white; transform: rotateY(180deg); font-size: 0.9rem; font-weight: bold; line-height: 1.4; border: 1px solid rgba(255,255,255,0.2); }
+
         /* --- تأثيرات القلوب والنيون --- */
         .heart-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
         .heart { position: absolute; font-size: 1rem; color: rgba(229, 62, 62, 0.8); animation: fall linear forwards; }
@@ -51,13 +67,6 @@
         @keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(5deg); } 75% { transform: rotate(-5deg); } }
         .share-btn { position: fixed; bottom: 80px; left: 20px; z-index: 50; background: rgba(255, 255, 255, 0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
 
-        /* --- لوحة التحكم --- */
-        #admin-panel { background: #0f172a; min-height: 100vh; padding: 20px; color: #fff; padding-bottom: 100px; }
-        .admin-section { background: #1e293b; padding: 15px; border-radius: 12px; margin-bottom: 15px; border: 1px solid #334155; }
-        .admin-label { display: block; margin-bottom: 5px; color: #94a3b8; font-size: 0.9rem; }
-        .admin-input { width: 100%; background: #0f172a; border: 1px solid #475569; color: #fff; padding: 8px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 10px; }
-        .code-box { background: #000; color: #22c55e; padding: 10px; border-radius: 6px; font-family: monospace; font-size: 0.8rem; word-break: break-all; margin-top: 5px; user-select: all; border: 1px dashed #22c55e; }
-
         /* --- السلايدر --- */
         .slider-container { overflow: hidden; white-space: nowrap; position: relative; padding: 10px 0; mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent); }
         .slider-track { display: inline-block; animation: scrollRTL 60s linear infinite; will-change: transform; }
@@ -69,8 +78,8 @@
         .video-wrapper { 
             position: relative; 
             width: 100%; 
-            max-width: 360px; /* عرض مناسب للموبايل ليظهر بشكل طولي */
-            aspect-ratio: 9 / 16; /* إجبار العنصر على أن يكون بنسبة طولية */
+            max-width: 360px; 
+            aspect-ratio: 9 / 16; 
             margin: 0 auto 1.5rem auto; 
             border-radius: 15px; 
             overflow: hidden; 
@@ -81,7 +90,7 @@
         .video-wrapper video { 
             width: 100%; 
             height: 100%; 
-            object-fit: cover; /* يملأ الإطار بالكامل دون حواف سوداء */
+            object-fit: cover; 
             display: block; 
         }
         .play-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: opacity 0.3s; z-index: 2; }
@@ -108,12 +117,6 @@
         @keyframes pulse-btn { 0% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(225, 29, 72, 0); } 100% { box-shadow: 0 0 0 0 rgba(225, 29, 72, 0); } }
     </style>
 
-    <!-- 
-    ========================================================================
-    🔥 منطقة التحكم في المحتوى (Configuration Zone) 🔥
-    عدل الروابط هنا، والموقع هيتحدث تلقائياً!
-    ========================================================================
-    -->
     <script>
         const siteConfig = {
             // صورة الخلفية الثابتة للموقع
@@ -124,7 +127,7 @@
                 "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861941/o8iijrkaurfblff7eepn.jpg",
                 "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861929/mkwnwbcopzgmf66ghjdl.jpg",
                 "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768836625/qvq3rrxgov1vu8nddsq6.jpg",
-                "/https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861977/fm7sksyf6uns9ggt8dfx.jpg"
+                "https://res.cloudinary.com/db9h7zm1h/image/upload/v1768861977/fm7sksyf6uns9ggt8dfx.jpg"
             ],
 
             // الفيديوهات
@@ -169,54 +172,7 @@
         <p class="text-white mt-6 text-lg font-handwriting drop-shadow-md">بجهزلك المفاجأة...</p>
     </div>
 
-    <!-- 3. لوحة التحكم (Admin Panel) -->
-    <div id="admin-panel" class="hidden-content">
-        <div class="flex justify-between items-center mb-6 border-b border-gray-700 pb-4">
-            <h1 class="text-2xl font-bold text-rose-500">لوحة التحكم 🛠️</h1>
-            <button onclick="location.reload()" class="text-xs bg-red-600 px-3 py-1 rounded text-white">خروج</button>
-        </div>
-
-        <div class="admin-section">
-            <h3 class="font-bold text-white mb-2"><i class="fas fa-cloud-upload-alt text-blue-400"></i> رفع ملفات جديدة</h3>
-            <button id="upload_widget" class="w-full py-3 bg-blue-600 rounded-lg text-white font-bold hover:bg-blue-700 transition shadow-lg">
-                اضغط لرفع صورة أو فيديو من الاستوديو
-            </button>
-            <div id="upload-result" class="hidden mt-3">
-                <p class="text-xs text-green-400 mb-1">✅ تم الرفع! الرابط:</p>
-                <div class="code-box" id="new-url-display"></div>
-                <p class="text-[10px] text-gray-400 mt-1">انسخ الرابط ده وحطه في الأماكن تحت 👇</p>
-            </div>
-        </div>
-
-        <div class="admin-section">
-            <h3 class="font-bold text-white mb-4"><i class="fas fa-edit text-yellow-400"></i> تعديل المحتوى</h3>
-
-            <label class="admin-label">رابط الخلفية:</label>
-            <input type="text" id="admin-bg" class="admin-input">
-
-            <label class="admin-label">رابط الموسيقى:</label>
-            <input type="text" id="admin-music" class="admin-input">
-
-            <label class="admin-label">روابط الصور (افصل بينهم بفاصلة , ):</label>
-            <textarea id="admin-slider" rows="3" class="admin-input"></textarea>
-
-            <label class="admin-label">روابط الفيديوهات (افصل بينهم بفاصلة , ):</label>
-            <textarea id="admin-videos" rows="3" class="admin-input"></textarea>
-        </div>
-
-        <div class="admin-section border-rose-500 border">
-            <h3 class="font-bold text-rose-400 mb-2">🎁 الخطوة الأخيرة</h3>
-            <p class="text-xs text-gray-300 mb-3">بعد ما تغير الروابط فوق، اضغط الزرار ده عشان يكتبلك كود الإعدادات الجديد.</p>
-            <button onclick="generateConfigCode()" class="w-full py-2 bg-rose-600 rounded text-white font-bold">توليد الكود الجديد</button>
-
-            <div id="generated-code-container" class="hidden mt-4">
-                <p class="text-xs text-white">انسخ الكود ده وحطه مكان الكود اللي في أول الملف (منطقة siteConfig):</p>
-                <div class="code-box text-xs" id="final-code-block"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. المحتوى الرئيسي -->
+    <!-- 3. المحتوى الرئيسي -->
     <div id="main-content" class="hidden-content">
         <div class="heart-bg" id="heart-bg"></div>
 
@@ -272,7 +228,7 @@
                 </div>
             </div>
 
-            <!-- تم استرجاع صندوق "فاضل قد إيه" بالكامل -->
+            <!-- عداد الوقت -->
             <section class="w-[90%] max-w-[300px] px-2 mb-10">
                 <div class="p-2 text-center neon-box">
                     <h3 class="text-xl font-bold text-rose-400 mb-2">فاضل قد إيه؟</h3>
@@ -304,6 +260,65 @@
                 </div>
             </section>
 
+            <!-- البطاقات الأربعة -->
+            <section class="w-full px-4 mb-12">
+                <h3 class="text-center text-xl font-bold text-rose-400 mb-4">أمنياتي ليكي</h3>
+                <div class="grid grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    <!-- Card 1 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fas fa-heart text-3xl text-rose-500 mb-2"></i>
+                                <h4 class="font-bold">جوجو</h4>
+                                <p class="text-xs text-gray-300 mt-1">اضغطي هنا</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>يارب تكون سنة كلها فرح وسعادة وتتحقق فيها كل أحلامك</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fas fa-star text-3xl text-yellow-400 mb-2"></i>
+                                <h4 class="font-bold">جوجو</h4>
+                                <p class="text-xs text-gray-300 mt-1">اضغطي هنا</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>إن شاء الله تحققي نجاح كبير في دراستك وحياتك كلها</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fas fa-smile-beam text-3xl text-blue-400 mb-2"></i>
+                                <h4 class="font-bold">جوجو</h4>
+                                <p class="text-xs text-gray-300 mt-1">اضغطي هنا</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>يارب الضحكة متفارقش وشك أبداً وتفضلي منورة حياتنا</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                        <div class="flip-card-inner">
+                            <div class="flip-card-front">
+                                <i class="fas fa-gem text-3xl text-purple-400 mb-2"></i>
+                                <h4 class="font-bold">جوجو</h4>
+                                <p class="text-xs text-gray-300 mt-1">اضغطي هنا</p>
+                            </div>
+                            <div class="flip-card-back">
+                                <p>ربنا يديكي الصحة وطولة العمر ونشوفك أحسن الناس</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <section class="w-full text-center mb-12">
                 <h3 class="text-xl font-bold text-rose-400 mb-4">هدية خاصة 🎁</h3>
                 <div class="mystery-box" id="mystery-box" onclick="openGift()">🎁</div>
@@ -320,7 +335,7 @@
                 </div>
             </section>
 
-            <!-- Videos Dynamic (تم التعديل لتكون طولية) -->
+            <!-- Videos Dynamic -->
             <section class="w-full px-4" id="videos-container">
                 <h3 class="text-center text-xl font-bold text-rose-400 mb-4">فيديوهات</h3>
                 <!-- Videos will be injected here via JS -->
@@ -371,67 +386,12 @@
             videoContainer.innerHTML = videoHtml;
         });
 
-        // --- 2. Admin Panel Logic ---
-        function initAdminWidget() {
-            document.getElementById('admin-bg').value = siteConfig.background;
-            document.getElementById('admin-music').value = siteConfig.music;
-            document.getElementById('admin-slider').value = siteConfig.sliderImages.join(',\n');
-            document.getElementById('admin-videos').value = siteConfig.videos.join(',\n');
-
-            var myWidget = cloudinary.createUploadWidget({
-                cloudName: 'db9h7zm1h', 
-                uploadPreset: 'souq_upload',
-                sources: ['local', 'camera', 'url'],
-                multiple: false
-            }, (error, result) => { 
-                if (!error && result && result.event === "success") { 
-                    const url = result.info.secure_url;
-                    document.getElementById('upload-result').classList.remove('hidden');
-                    document.getElementById('new-url-display').innerText = url;
-                }
-            });
-
-            document.getElementById("upload_widget").addEventListener("click", function(){
-                myWidget.open();
-            }, false);
-        }
-
-        function generateConfigCode() {
-            const bg = document.getElementById('admin-bg').value.trim();
-            const music = document.getElementById('admin-music').value.trim();
-            const slider = document.getElementById('admin-slider').value.split(',').map(s => `"${s.trim()}"`).filter(s => s.length > 3).join(',\n        ');
-            const videos = document.getElementById('admin-videos').value.split(',').map(s => `"${s.trim()}"`).filter(s => s.length > 3).join(',\n        ');
-
-            const code = `
-    const siteConfig = {
-        background: "${bg}",
-        sliderImages: [
-            ${slider}
-        ],
-        videos: [
-            ${videos}
-        ],
-        music: "${music}"
-    };`;
-
-            const container = document.getElementById('generated-code-container');
-            const block = document.getElementById('final-code-block');
-            container.classList.remove('hidden');
-            block.innerText = code;
-        }
-
-        // --- 3. Main Site Logic ---
+        // --- 2. Main Site Logic ---
         let targetDate;
         function adjustView() { setTimeout(() => { window.scrollTo(0, 100); }, 300); }
 
         function checkPassword() {
             const input = document.getElementById('pass-input').value;
-            if (input === "622006") {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('admin-panel').classList.remove('hidden-content');
-                initAdminWidget(); 
-                return;
-            }
             if (input === "2012008") {
                 document.getElementById('pass-input').blur();
                 const audio = document.getElementById('bg-music');
@@ -449,7 +409,11 @@
                             document.getElementById('loading-screen').style.display = 'none';
                             document.getElementById('main-content').classList.remove('hidden-content');
                             startCounter();
-                            shootConfetti();
+                            
+                            // تشغيل المدافع بشكل متكرر
+                            fireCannons();
+                            setInterval(fireCannons, 2000); // كل ثانيتين
+                            
                             setupVideoObserver();
                         }, 500);
                     }, 2500);
@@ -479,13 +443,35 @@
             }, 1000);
         }
 
-        function shootConfetti() { confetti({ particleCount: 50, spread: 70, origin: { y: 0.6 }, colors: ['#e11d48', '#fb7185', '#ffffff'] }); }
-        function openGift() { document.getElementById('mystery-box').style.animation = 'none'; document.getElementById('mystery-box').innerHTML = '🎉'; document.getElementById('gift-content').classList.remove('hidden'); shootConfetti(); }
+        // دالة المدافع الجديدة
+        function fireCannons() {
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 },
+                zIndex: 9999
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            // مدفع اليسار
+            fire(0.25, { spread: 26, startVelocity: 55, origin: { x: 0, y: 0.7 }, angle: 60, colors: ['#e11d48', '#fb7185', '#fff'] });
+            fire(0.2, { spread: 60, origin: { x: 0, y: 0.7 }, angle: 60, colors: ['#e11d48', '#fb7185', '#fff'] });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8, origin: { x: 0, y: 0.7 }, angle: 60, colors: ['#e11d48', '#fb7185', '#fff'] });
+
+            // مدفع اليمين
+            fire(0.25, { spread: 26, startVelocity: 55, origin: { x: 1, y: 0.7 }, angle: 120, colors: ['#e11d48', '#fb7185', '#fff'] });
+            fire(0.2, { spread: 60, origin: { x: 1, y: 0.7 }, angle: 120, colors: ['#e11d48', '#fb7185', '#fff'] });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8, origin: { x: 1, y: 0.7 }, angle: 120, colors: ['#e11d48', '#fb7185', '#fff'] });
+        }
+
+        function openGift() { document.getElementById('mystery-box').style.animation = 'none'; document.getElementById('mystery-box').innerHTML = '🎉'; document.getElementById('gift-content').classList.remove('hidden'); fireCannons(); }
         function shareSite() { if (navigator.share) navigator.share({ title: 'Hagar Birthday', url: window.location.href }); else alert('انسخ الرابط!'); }
 
         function stopAllMedia(exceptId = null) {
-            const audio = document.getElementById('bg-music');
-            if (exceptId !== 'audio') { audio.pause(); document.getElementById('music-icon').className = 'fas fa-music text-white'; }
             document.querySelectorAll('video').forEach(vid => { if (vid.id !== exceptId) { vid.pause(); vid.parentElement.querySelector('.play-overlay').style.display = 'flex'; vid.parentElement.querySelector('.play-overlay').style.opacity = '1'; vid.removeAttribute("controls"); } });
         }
         function toggleVideo(id, el) { stopAllMedia(id); const vid = document.getElementById(id); if (vid.paused) { vid.play(); el.style.opacity = '0'; setTimeout(() => { el.style.display = 'none'; vid.setAttribute("controls", "controls"); }, 300); } }
@@ -503,4 +489,4 @@
         }, 1000);
     </script>
 </body>
-      </html>
+</html>
